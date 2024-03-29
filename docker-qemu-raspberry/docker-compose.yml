@@ -1,15 +1,24 @@
-version: "3.8"
+name: qemu-raspberry
+
+volumes:
+  sdcard:
+    driver: local
+
 services:
-  local-raspberry:
+  qemu-raspberry:
     # image: lukechilds/dockerpi # no ssh per default :(
     image: ghcr.io/carlosperate/qemu-rpi-os-lite:bullseye-latest
     ports:
       - "5022:5022"
+      - '9090:9090'
+      - '3000:3000'
 
-  local-raspberry-persistent:
+  qemu-raspberry-persistent:
     # image: lukechilds/dockerpi # no ssh per default :(
     image: ghcr.io/carlosperate/qemu-rpi-os-lite:bullseye-latest
     volumes:
-      - ./sdcard:/sdcard
+      - sdcard:/sdcard
     ports:
       - "5022:5022"
+      - '9090:9090'
+      - '3000:3000'
