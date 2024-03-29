@@ -1,0 +1,38 @@
+- name: Check if docker is already installed
+  stat:
+    path: "/usr/bin/docker"
+  register: docker
+- name: Update apt cache
+  apt:
+    update_cache: yes
+  when: not docker.stat.exists
+- name: Curl is installed
+  apt:
+    pkg:
+      #      - libffi-dev
+      #      - libssl-dev
+      #      - python3
+      #      - python3-pip
+      - curl
+  when: not docker.stat.exists
+- name: Remove python-configparser package
+  apt:
+    name: python-configparser
+    state: absent
+  when: not docker.stat.exists
+- name: Get docker convenience script
+  shell: curl -fsSL https://get.docker.com -o get-docker.sh
+  args:
+    creates: get-docker.sh
+  when: not docker.stat.exists
+- name: Install docker
+  shell: sh get-docker.sh
+  args:
+    creates: /usr/bin/docker
+  when: not docker.stat.exists
+
+- name: Docker service enabled and started
+  service:
+    enabled: true
+    name: docker
+    state: started

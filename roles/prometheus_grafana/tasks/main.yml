@@ -1,0 +1,15 @@
+- name: Copy prometheus_grafana files
+  copy:
+    src: "{{ item }}"
+    dest: /home/pi/prometheus_grafana/
+    owner: pi
+    group: users
+  with_fileglob: "files/*"
+
+# may require: ansible-galaxy collection install community.docker
+- name: Prometheus and Grafana docker containers are up
+  community.docker.docker_compose_v2:
+    files: docker-compose.yml
+    project_src: /home/pi/prometheus_grafana/
+    remove_orphans: true
+    
