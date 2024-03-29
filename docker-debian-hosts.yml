@@ -1,0 +1,7 @@
+default:
+  hosts:
+    docker-debian:
+      ansible_port: 5022
+      ansible_user: root
+      ansible_password: root
+      ansible_host: localhost

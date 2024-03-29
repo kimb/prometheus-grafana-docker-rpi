@@ -1,0 +1,10 @@
+version: "3.8"
+services:
+  debian:
+    build: .
+    privileged: true
+    command: /usr/sbin/init
+    ports:
+      - "5022:22"
+      - '9090:9090'
+      - '3000:3000'
