@@ -1,10 +1,23 @@
-- name: Copy prometheus_grafana files
+---
+- name: Ensure docker is installed
+  include_tasks: docker.yml
+
+- name: Ensure pi user exists with group docker
+  include_tasks: user.yml
+
+- name: Copy prometheus_grafana docker-compose.yml
   copy:
-    src: "{{ item }}"
+    src: docker-compose.yml
     dest: /home/pi/prometheus_grafana/
     owner: pi
     group: users
-  with_fileglob: "files/*"
+
+- name: Prometheus config file
+  template:
+    src: prometheus.yaml.j2
+    dest: /home/pi/prometheus_grafana/prometheus.yaml
+    owner: pi
+    group: users
 
 # may require: ansible-galaxy collection install community.docker
 - name: Prometheus and Grafana docker containers are up

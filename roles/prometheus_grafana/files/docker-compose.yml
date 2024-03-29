@@ -1,3 +1,4 @@
+---
 volumes:
   prometheus-data:
     driver: local
@@ -12,6 +13,7 @@ services:
       - '9090:9090'
     command:
       - '--config.file=/etc/prometheus/prometheus.yaml'
+      - '--storage.tsdb.retention.time=400d'
     volumes:
       - ./prometheus.yaml:/etc/prometheus/prometheus.yaml:ro
       - prometheus-data:/prometheus

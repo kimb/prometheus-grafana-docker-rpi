@@ -1,0 +1,6 @@
+global:
+  scrape_interval: 60s
+
+scrape_configs:
+  {{ scrape_configs | to_nice_yaml(indent=2) | indent(2) }}
+

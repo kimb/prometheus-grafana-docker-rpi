@@ -9,10 +9,6 @@
 - name: Curl is installed
   apt:
     pkg:
-      #      - libffi-dev
-      #      - libssl-dev
-      #      - python3
-      #      - python3-pip
       - curl
   when: not docker.stat.exists
 - name: Remove python-configparser package

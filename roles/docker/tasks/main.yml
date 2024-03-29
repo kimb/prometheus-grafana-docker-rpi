@@ -1,4 +1,0 @@
-- name: Ensure docker installed
-  include_tasks: docker.yml
-- name: Ensure pi user exists with group docker
-  include_tasks: pi-user.yml
