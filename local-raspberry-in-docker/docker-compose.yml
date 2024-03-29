@@ -1,0 +1,15 @@
+version: "3.8"
+services:
+  local-raspberry:
+    # image: lukechilds/dockerpi # no ssh per default :(
+    image: ghcr.io/carlosperate/qemu-rpi-os-lite:bullseye-latest
+    ports:
+      - "5022:5022"
+
+  local-raspberry-persistent:
+    # image: lukechilds/dockerpi # no ssh per default :(
+    image: ghcr.io/carlosperate/qemu-rpi-os-lite:bullseye-latest
+    volumes:
+      - ./sdcard:/sdcard
+    ports:
+      - "5022:5022"
