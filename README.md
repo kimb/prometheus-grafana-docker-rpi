@@ -47,14 +47,14 @@ $ ansible-playbook -i raspberry-hosts.yml main.yml
 
 ### Usage as a role from your own playbook
 
-Create `requirements.yaml`:
+Create `requirements.yml`:
 
 ```yaml
 ---
 roles:
   - name: prometheus_grafana
-    src: ssh://git@https://github.com/kimb/prometheus-grafana-docker-rpi.git
-    version: main
+    src: ssh://git@github.com/kimb/prometheus-grafana-docker-rpi.git
+    version: master
     scm: git
 ```
 
@@ -65,13 +65,14 @@ Then use it in your playbook:
 ```yaml
 - hosts: raspberry-dashboard.local
   vars:
-    - job_name: 'spring-boot-actuator'
-      scrape_interval: 30s
-      static_configs:
-        - targets:
-            - 'prod-server1.example.com:8080'
-            - 'prod-server2.example.com:8080'
-      metrics_path: '/actuator/prometheus'
+    scrape_configs:
+      - job_name: 'spring-boot-actuator'
+        scrape_interval: 30s
+        static_configs:
+          - targets:
+              - 'prod-server1.example.com:8080'
+              - 'prod-server2.example.com:8080'
+        metrics_path: '/actuator/prometheus'
   roles:
     - prometheus_grafana
 ```
