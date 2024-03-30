@@ -3,3 +3,5 @@ scrape_configs:
   - job_name: 'rpi-node'
     static_configs:
       - targets: [ 'node_exporter:9100' ]
+
+retention_time: 400d

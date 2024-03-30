@@ -5,8 +5,8 @@
 - name: Ensure pi user exists with group docker
   include_tasks: user.yml
 
-- name: Copy prometheus_grafana docker-compose.yml
-  copy:
+- name: prometheus_grafana docker-compose.yml file
+  template:
     src: docker-compose.yml
     dest: /home/pi/prometheus_grafana/
     owner: pi

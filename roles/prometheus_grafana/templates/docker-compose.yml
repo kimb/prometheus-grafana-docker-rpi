@@ -9,11 +9,12 @@ services:
   prometheus:
     image: prom/prometheus:v2.37.9
     container_name: prometheus
+    hostname: prometheus
     ports:
       - '9090:9090'
     command:
       - '--config.file=/etc/prometheus/prometheus.yaml'
-      - '--storage.tsdb.retention.time=400d'
+      - '--storage.tsdb.retention.time={{ retention_time }}'
     volumes:
       - ./prometheus.yaml:/etc/prometheus/prometheus.yaml:ro
       - prometheus-data:/prometheus
@@ -21,6 +22,7 @@ services:
   grafana:
     image: grafana/grafana-oss:latest
     container_name: grafana
+    hostname: grafana
     ports:
       - '3000:3000'
     volumes:
