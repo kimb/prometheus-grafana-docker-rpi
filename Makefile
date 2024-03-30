@@ -9,8 +9,12 @@ qemu-raspberry-start: ## Start a local Raspberry os image in docker to act as te
 
 .PHONY: qemu-raspberry-start-persistent
 qemu-raspberry-start-persistent: ## Start a local Raspberry os image in docker to act as testing target using persistent disk
-	(cd docker-qemu-raspberry && mkdir -p sdcard && docker compose up -d qemu-raspberry-persistent)
+	(cd docker-qemu-raspberry && docker compose up -d qemu-raspberry-persistent)
 	@echo "NOTE: On first start it'll take over 1 minute before container is ready"
+
+.PHONY: qemu-raspberry-clear-persistent
+qemu-raspberry-clear-persistent: ## Stop and clear persistence
+	(cd docker-qemu-raspberry && docker compose down -v)
 
 .PHONY: qemu-raspberry-logs
 qemu-raspberry-logs: ## Show logs for Raspberry pi docker

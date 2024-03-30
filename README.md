@@ -47,6 +47,21 @@ $ ansible-playbook -i raspberry-hosts.yml main.yml
 
 ### Usage as a role from your own playbook
 
+Create `requirements.yaml`:
+
+```yaml
+---
+roles:
+  - name: prometheus_grafana
+    src: ssh://git@https://github.com/kimb/prometheus-grafana-docker-rpi.git
+    version: main
+    scm: git
+```
+
+Install it: `ansible-galaxy install -r requirements.yml`
+
+Then use it in your playbook:
+
 ```yaml
 - hosts: raspberry-dashboard.local
   vars:
@@ -58,10 +73,7 @@ $ ansible-playbook -i raspberry-hosts.yml main.yml
             - 'prod-server2.example.com:8080'
       metrics_path: '/actuator/prometheus'
   roles:
-    - name: prometheus_grafana
-      src: ssh://git@https://github.com/kimb/prometheus-grafana-docker-rpi.git
-      version: main
-      scm: git
+    - prometheus_grafana
 ```
 
 ## Testing locally
@@ -69,16 +81,23 @@ $ ansible-playbook -i raspberry-hosts.yml main.yml
 This project provides two ways to locally test and run the deployment.
 Using qemu to emulate a raspberry or a plain debian:bookworm image.
 
-### Test using qemu executed in a container
+* To test using qemu executed in a container (slow) (currently not working due
+  to [an issue](https://github.com/carlosperate/docker-qemu-rpi-os/issues/6)):
 
-```shell
-$ make qemu-raspberry-start
-$ ansible-playbook -i docker-qemu-raspberry-hosts.yml main.yml
-```
+   ```shell
+   $ make qemu-raspberry-start
+   $ ansible-playbook -i docker-qemu-raspberry-hosts.yml main.yml
+   ```
 
-### Test using Debian running in a container
+* Or, test using Debian running in a container (much faster, your system must
+  support docker-in-docker):
 
-```shell
-$ make docker-debian-start
-$ ansible-playbook -i docker-debian-hosts.yml main.yml
-```
+  ```shell
+  $ make docker-debian-start
+  $ make qemu-raspberry-logs
+  (CTRL-c when ready)
+  $ ansible-playbook -i docker-debian-hosts.yml main.yml
+  ```
+
+Either way, when completed, access Grafana at http://localhost:3000 and
+Prometheus at http://localhost:9090

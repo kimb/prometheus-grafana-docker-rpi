@@ -11,7 +11,7 @@
     pkg:
       - curl
   when: not docker.stat.exists
-- name: Remove python-configparser package
+- name: python-configparser is not installed
   apt:
     name: python-configparser
     state: absent
