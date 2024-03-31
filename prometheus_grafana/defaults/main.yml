@@ -1,4 +1,5 @@
 ---
+# prometheus configuration
 scrape_configs:
   - job_name: 'rpi-node'
     static_configs:

@@ -1,5 +1,0 @@
-- hosts: all
-  become: yes
-
-  roles:
-    - prometheus_grafana

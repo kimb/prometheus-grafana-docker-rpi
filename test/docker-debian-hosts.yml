@@ -1,0 +1,8 @@
+default:
+  hosts:
+    docker-debian:
+      ansible_port: 5022
+      ansible_user: pi
+      ansible_password: raspberry
+      ansible_sudo_pass: raspberry
+      ansible_host: localhost

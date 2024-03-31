@@ -21,14 +21,7 @@ After that:
 
 ## Usage
 
-You can either check out this repository and use it directly in place
-
-### Usage by modifying a clone
-
-Set hosts to monitor by modifying `roles/prometheus_grafana/defaults/main.yml`
-with your scraping needs.
-
-Then create a hosts file targeting your Raspberry Pi. For example
+Create a hosts file targeting your Raspberry Pi. For example
 `raspberry-hosts.yml` containing:
 
 ```yaml
@@ -38,14 +31,6 @@ default:
       ansible_user: pi
       ansible_password: raspberry
 ```
-
-Then run:
-
-```shell
-$ ansible-playbook -i raspberry-hosts.yml main.yml
-```
-
-### Usage as a role from your own playbook
 
 Create `requirements.yml`:
 
@@ -58,9 +43,9 @@ roles:
     scm: git
 ```
 
-Install it: `ansible-galaxy install -r requirements.yml`
+Install it: `ansible-galaxy roles install -r requirements.yml`
 
-Then use it in your playbook:
+Then use it in your `main.yml` playbook:
 
 ```yaml
 - hosts: raspberry-dashboard.local
@@ -77,27 +62,33 @@ Then use it in your playbook:
     - prometheus_grafana
 ```
 
+And finally run it:
+
+```shell
+$ ansible-playbook -i raspberry-hosts.yml main.yml
+```
+
 ## Testing locally
 
 This project provides two ways to locally test and run the deployment.
 Using qemu to emulate a raspberry or a plain debian:bookworm image.
 
-* To test using qemu executed in a container (slow) (currently not working due
+* To test using qemu executed in a container (currently not working due
   to [an issue](https://github.com/carlosperate/docker-qemu-rpi-os/issues/6)):
 
-   ```shell
-   $ make qemu-raspberry-start
-   $ ansible-playbook -i docker-qemu-raspberry-hosts.yml main.yml
-   ```
+  ```shell
+  $ make test-qemu-start
+  $ make test-qemu-logs
+  (CTRL-c when ready)
+  $ make qemu-test
+  ```
 
-* Or, test using Debian running in a container (much faster, your system must
+* Or, test using Debian running in a container (faster, your system must
   support docker-in-docker):
 
   ```shell
   $ make docker-debian-start
-  $ make qemu-raspberry-logs
-  (CTRL-c when ready)
-  $ ansible-playbook -i docker-debian-hosts.yml main.yml
+  $ make test
   ```
 
 Either way, when completed, access Grafana at http://localhost:3000 and
