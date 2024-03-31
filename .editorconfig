@@ -21,7 +21,7 @@ indent_size = 2
 [Makefile]
 indent_style = tab
 
-[*.{yaml,yml}]
+[*.{yaml,yml}{,.j2}]
 indent_size = 2
 trim_trailing_whitespace = false
 

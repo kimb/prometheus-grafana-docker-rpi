@@ -1,14 +1,12 @@
-- name: Group users exists
-  group:
-    name: users
-
+---
 - name: Group docker exists
   group:
     name: docker
-
 - name: User pi exists
   user:
     name: pi
-    group: users
     groups:
       - docker
+    append: true
+- name: Re-login to update groups
+  meta: reset_connection
