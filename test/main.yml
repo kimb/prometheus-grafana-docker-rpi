@@ -4,4 +4,3 @@
   tasks:
     - name: Prometheus and grafana installed
       import_role: name=prometheus_grafana
-

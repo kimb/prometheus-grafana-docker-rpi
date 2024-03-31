@@ -27,6 +27,13 @@ services:
       - '3000:3000'
     volumes:
       - grafana-data:/var/lib/grafana
+      - ./grafana-provisioning:/etc/grafana/provisioning
+    environment:
+      GF_AUTH_ANONYMOUS_ENABLED: {{ grafana_anonymous }}
+{% if grafana_admin_password is defined %}
+      GF_SECURITY_ADMIN_USER: admin
+      GF_SECURITY_ADMIN_PASSWORD: {{ grafana_admin_password }}
+{% endif %}
     restart: unless-stopped
   node_exporter:
     image: quay.io/prometheus/node-exporter:v1.5.0

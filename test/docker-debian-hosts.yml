@@ -6,3 +6,6 @@ default:
       ansible_password: raspberry
       ansible_sudo_pass: raspberry
       ansible_host: localhost
+      
+      grafana_anonymous: true
+      grafana_admin_password: test

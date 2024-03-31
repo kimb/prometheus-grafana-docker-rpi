@@ -2,6 +2,9 @@
 # default to ensuring docker is installed
 docker_install: true
 
+# grafana configuration
+grafana_anonymous: false
+
 # prometheus configuration
 scrape_configs:
   - job_name: 'rpi-node'

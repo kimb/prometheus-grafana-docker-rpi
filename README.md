@@ -1,22 +1,20 @@
 # Ansible playbook to install Prometheus and Grafana to Raspberry PI.
 
-Intended for easy (re-)deployment of the monitoring tools to a headless RPi.
+Intended for easy (re-)deployment of the monitoring tools onto a Raspberry Pi.
 
 It will:
 
 1. Install docker on target hosts
 2. Create a docker-compose.yml for Prometheus and Grafana (and node_exporter to
    generate some test data for Prometheus to scrape)
-3. Start said Docker compose
+3. Automatically provision a datasource for Prometheus in Grafana
+4. Start said Docker compose
 
 After that:
 
-* Grafana is available on port `3000`
-  * Login using admin/admin, you will be asked to change the password
-  * In Connections/Data sources, select "Add data source", select "Prometheus"
-  * Enter "Prometheus Server URL": `http://prometheus:9090`
-  * Press "Save & test"
-* Prometheus is available on port `9090`
+* Grafana is available on port `3000`: http://localhost:3000
+* Prometheus is available on port `9090` (use `http://prometheus:9090` from
+  Grafana)
 
 ## Usage
 
@@ -73,6 +71,8 @@ $ ansible-playbook -i raspberry-hosts.yml main.yml
 * `docker_install` set to false to assume docker is already installed.
 * `prometheus_grafana_dir` to set where docker-compose.yml is installed.
   Defaults to $HOME/prometheus_grafana
+* `grafana_anonymous` should access to grafana without login be permitted
+* `grafana_admin_password` to automatically set admin password
 
 ## Testing locally (for development)
 
