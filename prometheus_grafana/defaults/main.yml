@@ -1,4 +1,7 @@
 ---
+# default to ensuring docker is installed
+docker_install: true
+
 # prometheus configuration
 scrape_configs:
   - job_name: 'rpi-node'

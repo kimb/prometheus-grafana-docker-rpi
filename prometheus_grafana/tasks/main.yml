@@ -1,4 +1,10 @@
 ---
+- name: Docker is installed
+  import_role: name=geerlingguy.docker
+  vars:
+    docker_install_compose_plugin: true
+  when: docker_install
+
 - name: Set target root dir
   set_fact:
     prometheus_grafana_dir: "{{ ansible_env.PWD }}/prometheus_grafana"
@@ -11,15 +17,15 @@
     append: true
   when: ansible_env.SUDO_USER is defined
 
+- name: Re-login to update groups
+  meta: reset_connection
+
 - name: Prometheus and Grafana base folder exists ({{ prometheus_grafana_dir }})
   ansible.builtin.file:
     path: "{{ prometheus_grafana_dir }}"
     state: directory
     mode: 0755
   become: false
-
-- name: Re-login to update groups
-  meta: reset_connection
 
 - name: Template files
   template:

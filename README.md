@@ -5,10 +5,9 @@ Intended for easy (re-)deployment of the monitoring tools to a headless RPi.
 It will:
 
 1. Install docker on target hosts
-2. Create a user `pi` (if not already present)
-3. Create a docker-compose.yml for Prometheus and Grafana (and node_exporter to
+2. Create a docker-compose.yml for Prometheus and Grafana (and node_exporter to
    generate some test data for Prometheus to scrape)
-4. Start said Docker compose
+3. Start said Docker compose
 
 After that:
 
@@ -37,7 +36,8 @@ Create `requirements.yml`:
 ```yaml
 ---
 roles:
-  - name: prometheus_grafana
+  - name: geerlingguy.docker
+  - name: kimb.prometheus_grafana
     src: ssh://git@github.com/kimb/prometheus-grafana-docker-rpi.git
     version: master
     scm: git
@@ -59,7 +59,7 @@ Then use it in your `main.yml` playbook:
               - 'prod-server2.example.com:8080'
         metrics_path: '/actuator/prometheus'
   roles:
-    - prometheus_grafana
+    - kimb.prometheus_grafana
 ```
 
 And finally run it:
@@ -68,7 +68,13 @@ And finally run it:
 $ ansible-playbook -i raspberry-hosts.yml main.yml
 ```
 
-## Testing locally
+## Options
+
+* `docker_install` set to false to assume docker is already installed.
+* `prometheus_grafana_dir` to set where docker-compose.yml is installed.
+  Defaults to $HOME/prometheus_grafana
+
+## Testing locally (for development)
 
 This project provides two ways to locally test and run the deployment.
 Using qemu to emulate a raspberry or a plain debian:bookworm image.
