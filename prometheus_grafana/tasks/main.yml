@@ -42,6 +42,7 @@
   copy:
     src: grafana-provisioning/
     dest: "{{ prometheus_grafana_dir }}/grafana-provisioning"
+  become: false
 
 # may require: ansible-galaxy collection install community.docker
 - name: Prometheus and Grafana docker containers are up
