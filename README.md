@@ -1,4 +1,4 @@
-# Ansible playbook to install Prometheus and Grafana to Raspberry PI.
+# Ansible playbook to install Prometheus and Grafana to a Raspberry PI.
 
 Intended for easy (re-)deployment of the monitoring tools onto a Raspberry Pi.
 
@@ -46,7 +46,7 @@ Install it: `ansible-galaxy roles install -r requirements.yml`
 Then use it in your `main.yml` playbook:
 
 ```yaml
-- hosts: raspberry-dashboard.local
+- hosts: all
   vars:
     scrape_configs:
       - job_name: 'spring-boot-actuator'
