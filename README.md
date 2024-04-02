@@ -93,6 +93,12 @@ You can set the following ansible variables for this role to alter its results:
   like https://crazymax.dev/diun/ and when updates are published re-running your
   playbook with `docker_pull: "always"`.
 
+## Dependencies
+
+* geerlingguy.docker: To install docker to target host,
+  see [ansible-galaxy](https://galaxy.ansible.com/ui/standalone/roles/geerlingguy/docker/)
+  or [github](https://github.com/geerlingguy/ansible-role-docker)
+
 ## Testing locally (for development)
 
 This project provides two ways to locally test and run the deployment.

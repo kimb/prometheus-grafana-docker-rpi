@@ -1,5 +1,10 @@
 ---
 dependencies:
-  - geerlingguy.docker
+  # Ensure that docker is installed on target system
+  - role: geerlingguy.docker
+    vars:
+      docker_install_compose_plugin: true
+    when: docker_install
+
 galaxy_info:
   role_name: kimb.prometheus_grafana

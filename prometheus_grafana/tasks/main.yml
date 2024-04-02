@@ -1,10 +1,4 @@
 ---
-- name: Docker is installed
-  import_role: name=geerlingguy.docker
-  vars:
-    docker_install_compose_plugin: true
-  when: docker_install
-
 - name: Set target root dir
   set_fact:
     prometheus_grafana_dir: "{{ ansible_env.PWD }}/prometheus_grafana"
