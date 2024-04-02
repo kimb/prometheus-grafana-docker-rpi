@@ -76,8 +76,9 @@ You can set the following Ansible variables for this role to alter the resulting
 setup:
 
 * `prometheus_scrape_configs` Prometheus config where to obtain data (default:
-  config to
-  scrape local node_exporter)
+  undefined)
+  * note: if `node_exporter_enable` is true, node_exporter scraping is done
+    automatically
 * `prometheus_retention_time` max time to preserve data (default: 400d)
 * `prometheus_retention_size` max size of time series database (default:
   undefined)
