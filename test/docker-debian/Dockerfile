@@ -1,6 +1,7 @@
 FROM debian:bookworm
+ARG DEBIAN_FRONTEND=noninteractive
 # python3 is required for ansible
-RUN apt-get update && apt-get install -y openssh-server python3 vim sudo
+RUN apt-get update && apt install -y openssh-server python3 vim sudo curl
 # dependencies for docker (not actually needed, but makes install on recreated container faster)
 RUN apt-get install -y gnupg2 apt-transport-https ca-certificates
 RUN mkdir /var/run/sshd && \
