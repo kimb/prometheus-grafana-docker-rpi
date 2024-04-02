@@ -7,5 +7,6 @@ scrape_configs:
     static_configs:
       - targets: [ 'node_exporter:9100' ]
 {% endif %}
+{% if prometheus_scrape_configs is defined %}
   {{ prometheus_scrape_configs | to_nice_yaml(indent=2) | indent(2) }}
-
+{% endif %}

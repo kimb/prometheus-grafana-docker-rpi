@@ -51,10 +51,11 @@
   become: false
   when: grafana_provisioning.changed
 
-- name: Prometheus and Grafana docker containers are up
+- name: Docker containers are up
   community.docker.docker_compose_v2:
     files: docker-compose.yml
     project_src: "{{ prometheus_grafana_dir }}"
     pull: "{{ docker_pull }}"
+    build: "{{ docker_pull }}"
     remove_orphans: true
   become: false

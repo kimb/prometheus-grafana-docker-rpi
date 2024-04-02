@@ -15,7 +15,7 @@ grafana_anonymous_edit: false
 domain_name: 'localhost'
 
 # prometheus configuration
-prometheus_scrape_configs:
+#prometheus_scrape_configs:
 #  - job_name: 'production'
 #    static_configs:
 #      - targets: [ 'production.host/prometheus' ]
