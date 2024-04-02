@@ -6,10 +6,13 @@ Raspberry Pi.
 It will:
 
 1. Install docker on target hosts
-2. Create a docker-compose.yml for Prometheus and Grafana (and node_exporter
-   as default scraping target for Prometheus with info from the host)
-3. Automatically provision a datasource for Prometheus in Grafana
-4. Start said Docker compose
+2. Create a docker-compose.yml for Prometheus and Grafana
+3. Automatically provision a Prometheus datasource to Grafana
+4. (optional) node_exporter container providing Prometheus with info about the
+   host machine
+5. (optional) Automatically provision a [ntfy.sh](https://ntfy.sh/) alerting
+   contact point into Grafana and add a proxy container for it.
+6. Start/Update the Docker composition
 
 After that:
 
@@ -49,7 +52,7 @@ Then use it in your `main.yml` playbook:
 ```yaml
 - hosts: all
   vars:
-    scrape_configs:
+    prometheus_scrape_configs:
       - job_name: 'spring-boot-actuator'
         scrape_interval: 30s
         static_configs:
@@ -69,20 +72,33 @@ $ ansible-playbook -i raspberry-hosts.yml main.yml
 
 ## Options
 
-You can set the following ansible variables for this role to alter its results:
+You can set the following Ansible variables for this role to alter the resulting
+setup:
 
-* `scrape_configs` Prometheus config where to obtain data (default: config to
+* `prometheus_scrape_configs` Prometheus config where to obtain data (default:
+  config to
   scrape local node_exporter)
-* `docker_install` assume docker is already installed (default: false)
-* `docker_pull` set to "always" to update container images (default: "policy",
-  which won't pull updates)
+* `prometheus_retention_time` max time to preserve data (default: 400d)
+* `prometheus_retention_size` max size of time series database (default:
+  undefined)
+* `node_exporter_enable` should a node exporter container be deployed (default:
+  true)
 * `prometheus_grafana_dir` to set where docker-compose.yml is installed.
   (default: $HOME/prometheus_grafana)
 * `grafana_anonymous` should access to grafana without login be permitted (
   default: false)
 * `grafana_anonymous_edit` should anonymous users be permitted to modify
   dashboards (default: false)
-* `grafana_admin_password` to automatically set admin password
+* `grafana_admin_password` to automatically set initial admin password
+* `ntfy_topic` topic name to automatically create container doing Grafana
+  webhook -> ntfy.sh integration. Provision it into Grafana as an alert
+  contact point. (default: undefined)
+* `domain_name` domain to use in Grafana notifications (default: 'localhost')
+
+Change this Ansible role operation using variables:
+
+* `docker_install` assume docker is already installed (default: false)
+* `docker_pull` set to "always" to update container images (default: "policy")
 
 ## Security
 

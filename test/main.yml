@@ -2,5 +2,9 @@
   become: yes
   
   tasks:
+    - name: Check for NTFY_TOPIC in environment variable
+      set_fact:
+        ntfy_topic: "{{ lookup('ansible.builtin.env', 'NTFY_TOPIC') }}"
+      when: lookup('ansible.builtin.env', 'NTFY_TOPIC') != ''
     - name: Prometheus and grafana installed
       import_role: name=prometheus_grafana

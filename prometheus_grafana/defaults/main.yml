@@ -3,14 +3,22 @@
 docker_install: true
 docker_pull: "policy" # set to "always" to update container images
 
+# add node_exporter container
+node_exporter_enable: true
+
+# Provision ntfy alerting integration to Grafana and add container for doing ntfy integration
+#ntfy_topic: "your-topic-name"
+
 # grafana configuration
 grafana_anonymous: false
 grafana_anonymous_edit: false
+domain_name: 'localhost'
 
 # prometheus configuration
-scrape_configs:
-  - job_name: 'rpi-node'
-    static_configs:
-      - targets: [ 'node_exporter:9100' ]
+prometheus_scrape_configs:
+#  - job_name: 'production'
+#    static_configs:
+#      - targets: [ 'production.host/prometheus' ]
 
-retention_time: 400d
+prometheus_retention_time: 400d
+#prometheus_retention_size: 1TB

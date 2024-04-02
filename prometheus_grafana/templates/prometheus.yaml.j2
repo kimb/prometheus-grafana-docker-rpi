@@ -2,5 +2,10 @@ global:
   scrape_interval: 60s
 
 scrape_configs:
-  {{ scrape_configs | to_nice_yaml(indent=2) | indent(2) }}
+{% if node_exporter_enable %}
+  - job_name: 'rpi-local-data'
+    static_configs:
+      - targets: [ 'node_exporter:9100' ]
+{% endif %}
+  {{ prometheus_scrape_configs | to_nice_yaml(indent=2) | indent(2) }}
 

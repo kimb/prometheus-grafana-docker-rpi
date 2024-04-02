@@ -14,7 +14,10 @@ services:
       - '9090:9090'
     command:
       - '--config.file=/etc/prometheus/prometheus.yaml'
-      - '--storage.tsdb.retention.time={{ retention_time }}'
+      - '--storage.tsdb.retention.time={{ prometheus_retention_time }}'
+{% if prometheus_retention_size is defined %}
+      - '--storage.tsdb.retention.size={{ prometheus_retention_size }}'
+{% endif %}
     volumes:
       - ./prometheus.yaml:/etc/prometheus/prometheus.yaml:ro
       - prometheus-data:/prometheus
@@ -29,6 +32,7 @@ services:
       - grafana-data:/var/lib/grafana
       - ./grafana-provisioning:/etc/grafana/provisioning
     environment:
+      GF_SERVER_DOMAIN: {{ domain_name }}
       GF_AUTH_ANONYMOUS_ENABLED: {{ grafana_anonymous }}
       GF_AUTH_ANONYMOUS_ORG_ROLE: {{ 'Editor' if grafana_anonymous_edit else 'Viewer' }}
 {% if grafana_admin_password is defined %}
@@ -37,6 +41,7 @@ services:
 {% endif %}
     restart: unless-stopped
 
+{% if node_exporter_enable %}
   node_exporter:
     image: quay.io/prometheus/node-exporter:latest
     container_name: node_exporter
@@ -45,3 +50,13 @@ services:
     restart: unless-stopped
     volumes:
       - /:/host:ro,rslave
+{% endif %}
+
+{% if ntfy_topic is defined %}
+  grafana_ntfy:
+    image: grafana-ntfy
+    hostname: grafana-ntfy
+    build: https://github.com/academo/grafana-alerting-ntfy-webhook-integration.git
+    command:
+      - "-ntfy-url=https://ntfy.sh/{{ ntfy_topic }}"
+{% endif %}

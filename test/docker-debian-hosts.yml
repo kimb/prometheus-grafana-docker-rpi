@@ -7,6 +7,8 @@ default:
       ansible_sudo_pass: raspberry
       ansible_host: localhost
       
+      domain_name: kimb.local
+
       grafana_anonymous: true
       grafana_anonymous_edit: true
       grafana_admin_password: test

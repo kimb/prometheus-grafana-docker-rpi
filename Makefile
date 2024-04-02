@@ -39,7 +39,7 @@ test-debian-stop: ## Stop local Debian docker
 
 .PHONY: test
 test: ## Test against local Debian in docker
-	ansible-playbook -i test/docker-debian-hosts.yml test/main.yml
+	ansible-playbook -i test/docker-debian-hosts.yml test/main.yml $(PARAMS)
 
 .PHONY: test-root
 test-root: ## Test against local Debian in docker as root user

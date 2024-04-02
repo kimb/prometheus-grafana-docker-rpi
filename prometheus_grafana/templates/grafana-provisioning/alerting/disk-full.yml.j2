@@ -1,0 +1,69 @@
+apiVersion: 1
+groups:
+    - orgId: 1
+      name: Local RPi alerts
+      folder: alerts
+      interval: 5m
+      rules:
+{% if node_exporter_enable %}
+        - uid: diskfull1
+          title: Disk full (>95%)
+          condition: Below 5%
+          data:
+            - refId: Avail by device and instance
+              relativeTimeRange:
+                from: 300
+                to: 0
+              datasourceUid: prometheus
+              model:
+                disableTextWrap: false
+                editorMode: code
+                expr: max by(instance,device) (node_filesystem_avail_bytes{fstype!="tmpfs"} / node_filesystem_size_bytes)
+                fullMetaSearch: false
+                includeNullMetadata: true
+                instant: true
+                intervalMs: 1000
+                legendFormat: __auto
+                maxDataPoints: 43200
+                range: false
+                refId: Avail by device and instance
+                useBackend: false
+            - refId: Below 5%
+              relativeTimeRange:
+                from: 600
+                to: 0
+              datasourceUid: __expr__
+              model:
+                conditions:
+                    - evaluator:
+                        params:
+                            - 0.05
+                            - 0
+                        type: lt
+                      operator:
+                        type: and
+                      query:
+                        params: []
+                      reducer:
+                        params: []
+                        type: avg
+                      type: query
+                datasource:
+                    name: Expression
+                    type: __expr__
+                    uid: __expr__
+                expression: Avail by device and instance
+                intervalMs: 1000
+                maxDataPoints: 43200
+                refId: Below 5%
+                type: threshold
+          noDataState: KeepLast
+          execErrState: OK
+          for: 5m
+          annotations:
+            description: ""
+            runbook_url: ""
+            summary: ""
+          labels: {}
+          isPaused: false
+{% endif %}
