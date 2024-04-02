@@ -6,6 +6,7 @@ groups:
       interval: 5m
       rules:
 {% if node_exporter_enable %}
+{% raw %}
         - uid: diskfull1
           title: Disk full (>95%)
           condition: Below 5%
@@ -164,4 +165,5 @@ groups:
             __panelId__: "2"
           labels: {}
           isPaused: false
+{% endraw %}
 {% endif %}
