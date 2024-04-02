@@ -49,5 +49,6 @@
   community.docker.docker_compose_v2:
     files: docker-compose.yml
     project_src: "{{ prometheus_grafana_dir }}"
+    pull: "{{ docker_pull }}"
     remove_orphans: true
   become: false

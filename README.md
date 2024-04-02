@@ -1,12 +1,13 @@
 # Ansible playbook to install Prometheus and Grafana to a Raspberry PI.
 
-Intended for easy (re-)deployment of the monitoring tools onto a Raspberry Pi.
+Intended for easy (re-)deployment and updating of the monitoring tools onto a
+Raspberry Pi.
 
 It will:
 
 1. Install docker on target hosts
-2. Create a docker-compose.yml for Prometheus and Grafana (and node_exporter to
-   generate some test data for Prometheus to scrape)
+2. Create a docker-compose.yml for Prometheus and Grafana (and node_exporter
+   as default scraping target for Prometheus with info from the host)
 3. Automatically provision a datasource for Prometheus in Grafana
 4. Start said Docker compose
 
@@ -68,11 +69,29 @@ $ ansible-playbook -i raspberry-hosts.yml main.yml
 
 ## Options
 
-* `docker_install` set to false to assume docker is already installed.
+You can set the following ansible variables for this role to alter its results:
+
+* `scrape_configs` Prometheus config where to obtain data (default: config to
+  scrape local node_exporter)
+* `docker_install` assume docker is already installed (default: false)
+* `docker_pull` set to "always" to update container images (default: "policy",
+  which won't pull updates)
 * `prometheus_grafana_dir` to set where docker-compose.yml is installed.
-  Defaults to $HOME/prometheus_grafana
-* `grafana_anonymous` should access to grafana without login be permitted
+  (default: $HOME/prometheus_grafana)
+* `grafana_anonymous` should access to grafana without login be permitted (
+  default: false)
+* `grafana_anonymous_edit` should anonymous users be permitted to modify
+  dashboards (default: false)
 * `grafana_admin_password` to automatically set admin password
+
+## Security
+
+* Grafana and Prometheus containers don't support execution using an arbitrary
+  user id. But as the docker socket isn't bind-mounted into these containers,
+  they should be isolated from the main system.
+* To monitor for image updates, consider installing a monitoring tool
+  like https://crazymax.dev/diun/ and when updates are published re-running your
+  playbook with `docker_pull: "always"`.
 
 ## Testing locally (for development)
 

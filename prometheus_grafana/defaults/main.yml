@@ -1,6 +1,7 @@
 ---
 # default to ensuring docker is installed
 docker_install: true
+docker_pull: "policy" # set to "always" to update container images
 
 # grafana configuration
 grafana_anonymous: false
