@@ -2,6 +2,7 @@ version: "3.8"
 services:
   debian:
     image: prometheus_grafana_test_debian
+    container_name: prometheus-grafana-test-debian
     hostname: prometheus-grafana-test-debian
     build: .
     privileged: true

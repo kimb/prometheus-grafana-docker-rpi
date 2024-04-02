@@ -55,8 +55,8 @@ services:
 
 {% if ntfy_topic is defined %}
   grafana_ntfy:
-    image: grafana-ntfy
     hostname: grafana-ntfy
+    container_name: grafana_ntfy
     build: https://github.com/academo/grafana-alerting-ntfy-webhook-integration.git
     command:
       - "-ntfy-url=https://ntfy.sh/{{ ntfy_topic }}"
