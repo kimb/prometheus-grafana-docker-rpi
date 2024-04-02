@@ -3,7 +3,7 @@
   set_fact:
     prometheus_grafana_dir: "{{ ansible_env.PWD }}/prometheus_grafana"
 
-- name: User has docker access
+- name: "{{ ansible_env.SUDO_USER }} is in group docker"
   user:
     name: "{{ ansible_env.SUDO_USER }}"
     groups:
@@ -11,10 +11,10 @@
     append: true
   when: ansible_env.SUDO_USER is defined
 
-- name: Re-login to update groups for docker access
+- name: Re-login for group changes to take effect
   meta: reset_connection
 
-- name: Prometheus and Grafana base & config folders exist ({{ prometheus_grafana_dir }})
+- name: Config folders exist ({{ prometheus_grafana_dir }})
   ansible.builtin.file:
     path: "{{ item }}"
     state: directory
@@ -42,12 +42,19 @@
   become: false
   register: grafana_provisioning
 
-# may require: ansible-galaxy collection install community.docker
+- name: Docker containers restarted due to configuration changes
+  community.docker.docker_compose_v2:
+    files: docker-compose.yml
+    project_src: "{{ prometheus_grafana_dir }}"
+    state: restarted
+    remove_orphans: true
+  become: false
+  when: grafana_provisioning.changed
+
 - name: Prometheus and Grafana docker containers are up
   community.docker.docker_compose_v2:
     files: docker-compose.yml
     project_src: "{{ prometheus_grafana_dir }}"
     pull: "{{ docker_pull }}"
-    state: "{{ 'restarted' if grafana_provisioning.changed else 'present' }}"
     remove_orphans: true
   become: false
