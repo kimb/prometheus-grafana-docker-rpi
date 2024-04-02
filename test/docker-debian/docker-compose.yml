@@ -2,6 +2,7 @@ version: "3.8"
 services:
   debian:
     image: prometheus_grafana_test_debian
+    hostname: prometheus_grafana_test_debian
     build: .
     privileged: true
     command: /usr/sbin/init

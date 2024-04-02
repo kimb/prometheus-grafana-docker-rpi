@@ -30,11 +30,13 @@ services:
       - ./grafana-provisioning:/etc/grafana/provisioning
     environment:
       GF_AUTH_ANONYMOUS_ENABLED: {{ grafana_anonymous }}
+      GF_AUTH_ANONYMOUS_ORG_ROLE: {{ 'Editor' if grafana_anonymous_edit else 'Viewer' }}
 {% if grafana_admin_password is defined %}
       GF_SECURITY_ADMIN_USER: admin
       GF_SECURITY_ADMIN_PASSWORD: {{ grafana_admin_password }}
 {% endif %}
     restart: unless-stopped
+
   node_exporter:
     image: quay.io/prometheus/node-exporter:latest
     container_name: node_exporter

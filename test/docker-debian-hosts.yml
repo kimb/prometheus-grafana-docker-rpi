@@ -8,4 +8,5 @@ default:
       ansible_host: localhost
       
       grafana_anonymous: true
+      grafana_anonymous_edit: true
       grafana_admin_password: test

@@ -1,5 +1,8 @@
 FROM debian:bookworm
+# python3 is required for ansible
 RUN apt-get update && apt-get install -y openssh-server python3 vim sudo
+# dependencies for docker (not actually needed, but makes install on recreated container faster)
+RUN apt-get install -y gnupg2 apt-transport-https ca-certificates
 RUN mkdir /var/run/sshd && \
   echo 'root:root' | chpasswd && \
   sed -i 's/#PermitRootLogin prohibit-password/PermitRootLogin yes/' /etc/ssh/sshd_config && \

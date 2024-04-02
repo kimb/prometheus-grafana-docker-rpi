@@ -4,6 +4,7 @@ docker_install: true
 
 # grafana configuration
 grafana_anonymous: false
+grafana_anonymous_edit: false
 
 # prometheus configuration
 scrape_configs:
