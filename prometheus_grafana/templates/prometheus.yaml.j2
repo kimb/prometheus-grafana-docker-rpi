@@ -3,7 +3,7 @@ global:
 
 scrape_configs:
 {% if node_exporter_enable %}
-  - job_name: 'rpi-local-data'
+  - job_name: '{{ inventory_hostname }}'
     static_configs:
       - targets: [ 'node_exporter:9100' ]
 {% endif %}
