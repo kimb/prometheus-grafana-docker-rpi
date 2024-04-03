@@ -73,13 +73,13 @@ groups:
           labels: {}
           isPaused: false
 
-        - uid: fdhjypzmakmbka
-          title: Long high load (>12h)
+        - uid: edhlaa5chgetcd
+          title: Long high load (>24h)
           condition: Too high
           data:
             - refId: Load
               relativeTimeRange:
-                from: 300
+                from: 3600
                 to: 0
               datasourceUid: prometheus
               model:
@@ -103,7 +103,7 @@ groups:
                 useBackend: false
             - refId: Min
               relativeTimeRange:
-                from: 300
+                from: 3600
                 to: 0
               datasourceUid: __expr__
               model:
@@ -133,14 +133,14 @@ groups:
                 type: reduce
             - refId: Too high
               relativeTimeRange:
-                from: 300
+                from: 3600
                 to: 0
               datasourceUid: __expr__
               model:
                 conditions:
                     - evaluator:
                         params:
-                            - 4
+                            - 1
                         type: gt
                       operator:
                         type: and
