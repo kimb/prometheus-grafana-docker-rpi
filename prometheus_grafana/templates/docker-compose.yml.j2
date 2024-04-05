@@ -22,6 +22,7 @@ services:
       - ./prometheus.yaml:/etc/prometheus/prometheus.yaml:ro
       - prometheus-data:/prometheus
     restart: unless-stopped
+
   grafana:
     image: grafana/grafana-oss:latest
     container_name: grafana
@@ -33,13 +34,16 @@ services:
       - ./grafana-provisioning:/etc/grafana/provisioning:ro
       - ./grafana-dashboards:/etc/grafana/dashboards:ro
     environment:
-      GF_SERVER_DOMAIN: {{ domain_name }}
+      GF_SERVER_DOMAIN: "{{ domain_name }}"
       GF_AUTH_ANONYMOUS_ENABLED: {{ grafana_anonymous }}
       GF_AUTH_ANONYMOUS_ORG_ROLE: {{ 'Editor' if grafana_anonymous_edit else 'Viewer' }}
 {% if grafana_admin_password is defined %}
       GF_SECURITY_ADMIN_USER: admin
-      GF_SECURITY_ADMIN_PASSWORD: {{ grafana_admin_password }}
+      GF_SECURITY_ADMIN_PASSWORD: "{{ grafana_admin_password }}"
 {% endif %}
+    labels:
+      - traefik.enable=true
+      - traefik.http.routers.grafana.rule=Host(`{{ domain_name }}`)
     restart: unless-stopped
 
 {% if node_exporter_enable %}
