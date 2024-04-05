@@ -57,7 +57,8 @@ services:
   grafana_ntfy:
     hostname: grafana-ntfy
     container_name: grafana_ntfy
-    build: https://github.com/academo/grafana-alerting-ntfy-webhook-integration.git
+    build: https://github.com/kimb/grafana-alerting-ntfy-webhook-integration.git
     command:
       - "-ntfy-url=https://ntfy.sh/{{ ntfy_topic }}"
+    restart: unless-stopped
 {% endif %}
