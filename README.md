@@ -1,18 +1,28 @@
-# Ansible playbook to install Prometheus and Grafana to a Raspberry PI.
+# Ansible role for deploying Prometheus and Grafana as docker containers.
 
-Intended for easy (re-)deployment and updating of the monitoring tools onto a
-Raspberry Pi.
+Intended for easy (re-)deployment and updating of Prometheus monitoring and
+Grafana visualization.
 
-It will:
+Can be used local deployment for most linux and Raspberry Pi systems.
 
-1. Install docker on target hosts
-2. Create a docker-compose.yml for Prometheus and Grafana
-3. Automatically provision a Prometheus datasource to Grafana
-4. (optional) node_exporter container providing Prometheus with info about the
-   host machine
-5. (optional) Automatically provision a [ntfy.sh](https://ntfy.sh/) alerting
-   contact point into Grafana and add a proxy container for it.
-6. Start/Update the Docker composition
+Deploys docker compose with containers:
+
+* [Prometheus](https://hub.docker.com/r/prom/prometheus/)
+* [Grafana](https://hub.docker.com/r/grafana/grafana-oss)
+* (optional) [Node exporter](https://github.com/prometheus/node_exporter) to
+  monitor the host node using Prometheus
+* (optional)
+  Grafana [ntfy.sh integration](https://github.com/academo/grafana-alerting-ntfy-webhook-integration)
+
+It will also:
+
+1. Ensure docker is installed
+2. Automatically provision a Prometheus datasource into Grafana
+3. (optional) Add node_exporter scraping to Prometheus and provision Grafana
+   with dashboard & alerts.
+4. (optional) Automatically provision a [ntfy.sh](https://ntfy.sh/) alerting
+   contact point into Grafana.
+5. Start/Update the Docker composition.
 
 After that:
 
