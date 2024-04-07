@@ -7,6 +7,11 @@ test-qemu-start: ## Start a local Raspberry os image in docker to act as testing
 	(cd test/docker-qemu-raspberry && docker compose up -d qemu-raspberry)
 	@echo "NOTE: On first start it'll take over 1 minute before container is ready"
 
+.PHONY:test-qemu-buster-start
+test-qemu-buster-start: ## Start a local Raspberry os image in docker to act as testing target
+	(cd test/docker-qemu-raspberry && docker compose up -d qemu-raspberry-buster)
+	@echo "NOTE: On first start it'll take over 1 minute before container is ready"
+
 .PHONY:test-qemu-start-persistent
 test-qemu-start-persistent: ## Start a local Raspberry os image in docker to act as testing target using persistent disk
 	(cd test/docker-qemu-raspberry && docker compose up -dtest-qemu-persistent)

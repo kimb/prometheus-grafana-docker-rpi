@@ -13,6 +13,13 @@ services:
       - '9090:9090'
       - '3000:3000'
 
+  qemu-raspberry-buster:
+    image: ghcr.io/carlosperate/qemu-rpi-os-lite:buster-latest
+    ports:
+      - "5022:5022"
+      - '9090:9090'
+      - '3000:3000'
+
   qemu-raspberry-persistent:
     # image: lukechilds/dockerpi # no ssh per default :(
     image: ghcr.io/carlosperate/qemu-rpi-os-lite:bullseye-latest
