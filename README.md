@@ -138,16 +138,20 @@ Using qemu to emulate a raspberry or a plain debian:bookworm image.
   $ make test-qemu-start
   $ make test-qemu-logs
   (CTRL-c when ready)
-  $ make qemu-test
+  $ make test-qemu-test
   ```
+
+  Shutdown test using `make test-qemu-stop`
 
 * Or, test using Debian running in a container (faster, your system must
   support docker-in-docker):
 
   ```shell
-  $ make docker-debian-start
-  $ make test
+  $ make test-debian-start
+  $ make test-debian-test
   ```
+
+  Shutdown test using `make test-debian-stop`
 
 Either way, when completed, access Grafana at http://localhost:3000 and
 Prometheus at http://localhost:9090

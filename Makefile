@@ -42,12 +42,12 @@ test-debian-start: ## Start local Debian in docker
 test-debian-stop: ## Stop local Debian docker
 	(cd test/docker-debian && docker compose down -v)
 
-.PHONY: test
-test: ## Test against local Debian in docker
+.PHONY: test-debian-test
+test-debian-test: ## Test against local Debian in docker
 	ansible-playbook -i test/docker-debian-hosts.yml test/main.yml $(PARAMS)
 
-.PHONY: test-root
-test-root: ## Test against local Debian in docker as root user
+.PHONY: test-debian-test-root
+test-debian-test-root: ## Test against local Debian in docker as root user
 	ansible-playbook -i test/docker-debian-root-hosts.yml test/main.yml
 
 .PHONY: test-shell
