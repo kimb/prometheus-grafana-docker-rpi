@@ -51,6 +51,7 @@ services:
   node_exporter:
     image: quay.io/prometheus/node-exporter:latest
     container_name: node_exporter
+    hostname: node_exporter
     command: '--path.rootfs=/host'
     pid: host
     restart: unless-stopped
