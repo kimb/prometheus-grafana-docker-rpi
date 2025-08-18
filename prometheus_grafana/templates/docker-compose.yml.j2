@@ -24,7 +24,7 @@ services:
     restart: unless-stopped
 
   grafana:
-    image: grafana/grafana-oss:latest
+    image: grafana/grafana-oss:main
     container_name: grafana
     hostname: grafana
     ports:
@@ -35,6 +35,7 @@ services:
       - ./grafana-dashboards:/etc/grafana/dashboards:ro
     environment:
       GF_SERVER_DOMAIN: "{{ domain_name }}"
+      GF_AUTH_ANONYMOUS_ORG_NAME: Main Org.
       GF_AUTH_ANONYMOUS_ENABLED: {{ grafana_anonymous }}
       GF_AUTH_ANONYMOUS_ORG_ROLE: {{ 'Editor' if grafana_anonymous_edit else 'Viewer' }}
 {% if grafana_admin_password is defined %}
