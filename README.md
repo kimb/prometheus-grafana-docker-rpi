@@ -104,7 +104,10 @@ setup:
 * `ntfy_topic` topic name to automatically create container doing Grafana
   webhook -> ntfy.sh integration. Provision it into Grafana as an alert
   contact point. (default: undefined)
-* `domain_name` domain to use in Grafana notifications (default: 'localhost')
+* `domain_name` domain to use for Grafana, notifications and traefik (
+  default: 'localhost')
+* `grafana_labels` list of labels to use. Allows customization of e.g. traefik
+  config (default: undefined)
 
 Change this Ansible role operation using variables:
 

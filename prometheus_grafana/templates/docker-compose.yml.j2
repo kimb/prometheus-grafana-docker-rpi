@@ -45,8 +45,12 @@ services:
       GF_SECURITY_ADMIN_PASSWORD: "{{ grafana_admin_password }}"
 {% endif %}
     labels:
+{% if grafana_labels is not defined %}
       - traefik.enable=true
       - traefik.http.routers.grafana.rule=Host(`{{ domain_name }}`)
+{% else %}
+      {{ grafana_labels | to_nice_yaml(indent=6) | indent(6) }}
+{% endif %}
     restart: unless-stopped
 
 {% if node_exporter_enable %}
